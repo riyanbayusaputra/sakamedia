@@ -5,7 +5,7 @@
 <div class="w-full">
 
     {{-- Hero gambar sampul --}}
-    <section class="relative w-full h-64 md:h-96 bg-gradient-to-br from-violet-deep to-primary overflow-hidden">
+    <section  class="relative w-full h-64 md:h-96 bg-gradient-to-br from-violet-deep to-primary overflow-hidden">
         @if ($article->cover_image)
             <img src="{{ Storage::url($article->cover_image) }}" alt="{{ $article->title }}" class="w-full h-full object-cover">
         @endif

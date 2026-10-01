@@ -1,9 +1,21 @@
-<section class="w-full py-16 bg-surface">
+<section id="company-profile" class="w-full py-16 bg-surface">
     <div class="max-w-7xl mx-auto px-6 lg:px-12">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-stretch">
 
             <div class="lg:col-span-5 relative rounded-3xl overflow-hidden min-h-[380px] bg-gradient-to-br from-violet-deep to-primary flex flex-col justify-end p-8 text-on-primary">
-                <div class="absolute inset-0 bg-gradient-to-t from-violet-deep/95 via-primary/50 to-transparent"></div>
+
+                {{-- Gambar background --}}
+                <img
+                    src="{{ asset('images/saka.png') }}"
+                    alt="PT Saka Media Komunika"
+                    class="absolute inset-0 w-full h-full object-cover"
+                    loading="lazy"
+                    onerror="this.style.display='none'"
+                >
+
+                {{-- Overlay gelap netral supaya teks tetap terbaca --}}
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+
                 <div class="relative z-10 space-y-2">
                     <span class="px-3 py-1 rounded bg-secondary-container text-on-secondary-container font-label-md text-label-md font-bold">PT SAKA MEDIA KOMUNIKA</span>
                     <h3 class="font-headline-md text-headline-md font-extrabold text-surface-container-lowest">Membangun Masa Depan Konektivitas Digital</h3>

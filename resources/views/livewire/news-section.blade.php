@@ -1,4 +1,4 @@
-<section class="w-full py-16 bg-surface-subtle">
+<section id="article-hero" class="w-full py-16 bg-surface-subtle">
     <div class="max-w-7xl mx-auto px-6 lg:px-12">
         <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
             <div>

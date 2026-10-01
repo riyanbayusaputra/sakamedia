@@ -93,6 +93,8 @@ class ArticleResource extends Resource
                         FileUpload::make('cover_image')
                             ->label('Upload Gambar Sampul')
                             ->image()
+                            ->disk('public')
+                            ->visibility('public')
                             ->directory('articles')
                             ->imageEditor()
                             ->columnSpanFull(),
@@ -106,6 +108,8 @@ class ArticleResource extends Resource
             ->columns([
                 ImageColumn::make('cover_image')
                     ->label('Sampul')
+                    ->disk('public')
+                    ->visibility('public')
                     ->square(),
                 TextColumn::make('title')
                     ->label('Judul')

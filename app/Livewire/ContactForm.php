@@ -2,6 +2,8 @@
 
 namespace App\Livewire;
 
+use App\Models\ContactSubmission;
+use App\Services\TelegramNotifier;
 use Livewire\Component;
 
 class ContactForm extends Component
@@ -39,12 +41,26 @@ class ContactForm extends Component
 
     public function submit()
     {
-        $this->validate();
+        $validated = $this->validate();
 
-        // TODO: nanti di sini bisa ditambahkan:
-        // - simpan ke database (model ContactSubmission)
-        // - kirim email notifikasi ke tim sales
-        // Untuk sekarang, kita anggap berhasil dan reset form.
+        $submission = ContactSubmission::create($validated);
+
+        $categoryLabels = [
+            'instansi' => 'Dedicated Instansi',
+            'rtrw' => 'Dedicated Pengusaha / RT RW NET',
+            'cloud' => 'Cloud Computing & Colocation',
+            'lainnya' => 'Pertanyaan Umum / Kemitraan',
+        ];
+
+        TelegramNotifier::send(
+            "📩 <b>Pesan Baru dari Form Hubungi Kami</b>\n\n" .
+            "👤 Nama: {$submission->name}\n" .
+            "📧 Email: {$submission->email}\n" .
+            "📱 Telepon: {$submission->phone}\n" .
+            "🏷️ Kategori: " . ($categoryLabels[$submission->category] ?? $submission->category) . "\n" .
+            ($submission->message ? "📝 Pesan: {$submission->message}\n" : '') .
+            "\n🕐 " . $submission->created_at->translatedFormat('d F Y, H:i')
+        );
 
         $this->reset(['name', 'email', 'phone', 'message']);
         $this->category = 'instansi';

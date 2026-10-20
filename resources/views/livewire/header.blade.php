@@ -11,11 +11,11 @@
                     <a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Instansi</a>
                 </div>
                 <div class="flex items-center gap-6">
-                    <a class="flex items-center gap-1 text-on-surface-variant hover:text-primary transition-colors" href="#">
-                        {{-- <span class="material-symbols-outlined text-[16px]">location_on</span><span>Cek Lokasi / Cakupan Jaringan</span> --}}
+                    <a class="flex items-center gap-1 text-on-surface-variant hover:text-primary transition-colors" href="{{ url('/#cakupan') }}">
+                        <span class="material-symbols-outlined text-[16px]">location_on</span><span>Cek Lokasi / Cakupan Jaringan</span>
                     </a>
-                    <a class="flex items-center gap-1 text-on-surface-variant hover:text-primary transition-colors" href="#">
-                        <span class="material-symbols-outlined text-[16px]">support_agent</span><span>Bantuan: +62 284 3286924</span>
+                    <a class="flex items-center gap-1 text-on-surface-variant hover:text-primary transition-colors" href="https://wa.me/6281510571114" target="_blank" rel="noopener noreferrer">
+                        <span class="material-symbols-outlined text-[16px]">support_agent</span><span>Bantuan: +6281510571114</span>
                     </a>
                     <a class="flex items-center gap-1 text-on-surface-variant hover:text-primary transition-colors" href="#">
                         {{-- <span class="material-symbols-outlined text-[16px]">lock</span><span>Login Mitra</span> --}}
@@ -30,19 +30,19 @@
             </a>
 
             <nav class="hidden md:flex items-center gap-6 font-label-lg text-label-lg">
-                <a aria-current="page" class="transition-colors py-2 text-primary font-bold" href="#">Home</a>
-                <a class="text-on-surface-variant hover:text-on-surface transition-colors py-2" href="#produk-pilihan">Produk &amp; Layanan</a>
-                <a class="text-on-surface-variant hover:text-on-surface transition-colors py-2" href="#company-profile">Tentang Kami</a>
-                <a class="text-on-surface-variant hover:text-on-surface transition-colors py-2" href="#article-hero">Berita &amp; Event</a>
-                <a class="text-on-surface-variant hover:text-on-surface transition-colors py-2" href="#hubungi-kami">Hubungi Kami</a>
+                <a aria-current="page" class="transition-colors py-2 text-primary font-bold" href="{{ url('/') }}">Home</a>
+                <a class="text-on-surface-variant hover:text-on-surface transition-colors py-2" href="{{ url('/#produk-pilihan') }}">Produk &amp; Layanan</a>
+                <a class="text-on-surface-variant hover:text-on-surface transition-colors py-2" href="{{ url('/#company-profile') }}">Tentang Kami</a>
+                <a class="text-on-surface-variant hover:text-on-surface transition-colors py-2" href="{{ url('/#article-hero') }}">Berita &amp; Event</a>
+                <a class="text-on-surface-variant hover:text-on-surface transition-colors py-2" href="{{ url('/#hubungi-kami') }}">Hubungi Kami</a>
             </nav>
 
             <div class="flex items-center gap-3">
-                <a class="hidden sm:flex items-center gap-1.5 px-4 py-2 rounded-full font-label-lg text-label-lg text-primary bg-surface-container-high hover:bg-surface-container-highest transition-colors" href="#cakupan">
+                <a class="hidden sm:flex items-center gap-1.5 px-4 py-2 rounded-full font-label-lg text-label-lg text-primary bg-surface-container-high hover:bg-surface-container-highest transition-colors" href="{{ url('/#cakupan') }}">
                     <span class="material-symbols-outlined text-[18px]">radar</span><span>Cek Lokasi Jaringan</span>
                 </a>
-                <a href="#produk-pilihan" class="hidden md:flex items-center gap-1.5 px-5 py-2.5 rounded-full font-label-lg text-label-lg text-on-primary bg-primary hover:bg-violet-deep shadow-[0_4px_16px_-2px_rgba(29,78,216,0.4)] transition-all">
-                    <span class="material-symbols-outlined text-[18px]">bolt</span><span>Berlangganan Sekarang</span>
+                <a href="{{ url('/#produk-pilihan') }}" class="hidden md:flex items-center gap-1.5 px-5 py-2.5 rounded-full font-label-lg text-label-lg text-on-primary bg-primary hover:bg-violet-deep shadow-[0_4px_16px_-2px_rgba(29,78,216,0.4)] transition-all">
+                    <span class="material-symbols-outlined text-[18px]"></span><span>Berlangganan Sekarang</span>
                 </a>
 
                 @auth
@@ -67,20 +67,19 @@
         <div id="mobile-menu"
             class="md:hidden max-h-0 overflow-hidden transition-[max-height] duration-300 ease-in-out bg-surface-container-lowest border-t border-outline-variant/50">
             <nav class="flex flex-col px-6 py-4 font-label-lg text-label-lg">
-                <a aria-current="page" class="py-3 text-primary font-bold" href="#">Home</a>
-                <a class="py-3 text-on-surface-variant hover:text-on-surface transition-colors" href="#produk-pilihan">Produk &amp; Layanan</a>
-                <a class="py-3 text-on-surface-variant hover:text-on-surface transition-colors" href="#">Promosi</a>
-                <a class="py-3 text-on-surface-variant hover:text-on-surface transition-colors" href="#">Tentang Kami</a>
-                <a class="py-3 text-on-surface-variant hover:text-on-surface transition-colors" href="#">Berita &amp; Event</a>
-                <a class="py-3 text-on-surface-variant hover:text-on-surface transition-colors" href="#hubungi-kami">Hubungi Kami</a>
+                <a aria-current="page" class="py-3 text-primary font-bold" href="{{ url('/') }}">Home</a>
+                <a class="py-3 text-on-surface-variant hover:text-on-surface transition-colors" href="{{ url('/#produk-pilihan') }}">Produk &amp; Layanan</a>
+                <a class="py-3 text-on-surface-variant hover:text-on-surface transition-colors" href="{{ url('/#company-profile') }}">Tentang Kami</a>
+                <a class="py-3 text-on-surface-variant hover:text-on-surface transition-colors" href="{{ url('/#article-hero') }}">Berita &amp; Event</a>
+                <a class="py-3 text-on-surface-variant hover:text-on-surface transition-colors" href="{{ url('/#hubungi-kami') }}">Hubungi Kami</a>
 
                 <div class="h-px bg-outline-variant/50 my-2"></div>
 
-                <a class="flex items-center gap-2 py-3 text-on-surface-variant" href="#">
-                    {{-- <span class="material-symbols-outlined text-[18px]">location_on</span>Cek Lokasi / Cakupan Jaringan --}}
+                <a class="flex items-center gap-2 py-3 text-on-surface-variant" href="{{ url('/#cakupan') }}">
+                    <span class="material-symbols-outlined text-[18px]">location_on</span>Cek Lokasi / Cakupan Jaringan
                 </a>
-                <a class="flex items-center gap-2 py-3 text-on-surface-variant" href="#">
-                    <span class="material-symbols-outlined text-[18px]">support_agent</span>Bantuan: +62 284 3286924
+                <a class="flex items-center gap-2 py-3 text-on-surface-variant" href="tel:+6281510571114">
+                    <span class="material-symbols-outlined text-[18px]">support_agent</span>Bantuan: +6281510571114
                 </a>
                 {{-- <a class="flex items-center gap-2 py-3 text-on-surface-variant" href="#">
                     <span class="material-symbols-outlined text-[18px]">lock</span>Login Mitra
@@ -107,7 +106,7 @@
                     </a>
                 @endauth
 
-                <a class="mt-3 flex items-center justify-center gap-1.5 px-5 py-3 rounded-full font-label-lg text-label-lg text-on-primary bg-primary hover:bg-violet-deep transition-all" href="#produk-pilihan">
+                <a class="mt-3 flex items-center justify-center gap-1.5 px-5 py-3 rounded-full font-label-lg text-label-lg text-on-primary bg-primary hover:bg-violet-deep transition-all" href="{{ url('/#produk-pilihan') }}">
                     <span class="material-symbols-outlined text-[18px]">bolt</span><span>Berlangganan Sekarang</span>
                 </a>
             </nav>
@@ -141,6 +140,7 @@
                     menu.style.maxHeight = '0px';
                     toggleIcon.textContent = 'menu';
                     toggleBtn.setAttribute('aria-expanded', 'false');
+                    toggleBtn.setAttribute('aria-label', 'Buka menu');
                 });
             });
 

@@ -8,13 +8,15 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
-use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Hash;
@@ -37,7 +39,7 @@ class UserResource extends Resource
     {
         return $schema
             ->components([
-                \Filament\Schemas\Components\Section::make('Data Akun')
+                Section::make('Data Akun')
                     ->schema([
                         TextInput::make('name')
                             ->label('Nama Lengkap')
@@ -57,9 +59,17 @@ class UserResource extends Resource
                             ->dehydrated(fn ($state) => filled($state))
                             ->required(fn (string $operation): bool => $operation === 'create')
                             ->helperText('Kosongkan kalau tidak ingin mengubah password saat edit.'),
+                        Select::make('role')
+                            ->label('Peran')
+                            ->options([
+                                'sales' => 'Sales',
+                                'teknisi' => 'Teknisi',
+                            ])
+                            ->default('sales')
+                            ->required(),
                         Toggle::make('is_admin')
                             ->label('Akses Admin Panel')
-                            ->helperText('Aktifkan supaya akun ini bisa login ke halaman /admin. Nonaktifkan untuk akun sales/teknisi biasa.')
+                            ->helperText('Aktifkan supaya akun ini bisa login ke /admin. Biarkan nonaktif untuk sales/teknisi.')
                             ->default(false),
                     ])->columns(2),
             ]);
@@ -77,6 +87,11 @@ class UserResource extends Resource
                     ->label('Email')
                     ->searchable()
                     ->copyable(),
+                TextColumn::make('role')
+                    ->label('Peran')
+                    ->badge()
+                    ->formatStateUsing(fn (string $state) => ucfirst($state))
+                    ->color(fn (string $state): string => $state === 'teknisi' ? 'warning' : 'info'),
                 IconColumn::make('is_admin')
                     ->label('Admin')
                     ->boolean(),
@@ -85,6 +100,11 @@ class UserResource extends Resource
                     ->counts('subscriptions')
                     ->badge()
                     ->color('info'),
+                TextColumn::make('assigned_subscriptions_count')
+                    ->label('Tugas Survei')
+                    ->counts('assignedSubscriptions')
+                    ->badge()
+                    ->color('warning'),
                 TextColumn::make('created_at')
                     ->label('Terdaftar Pada')
                     ->dateTime('d M Y')
@@ -92,11 +112,17 @@ class UserResource extends Resource
             ])
             ->defaultSort('created_at', 'desc')
             ->filters([
+                SelectFilter::make('role')
+                    ->label('Peran')
+                    ->options([
+                        'sales' => 'Sales',
+                        'teknisi' => 'Teknisi',
+                    ]),
                 TernaryFilter::make('is_admin')
                     ->label('Status Admin')
                     ->placeholder('Semua')
                     ->trueLabel('Admin saja')
-                    ->falseLabel('Sales/Teknisi saja'),
+                    ->falseLabel('Non-admin saja'),
             ])
             ->recordActions([
                 EditAction::make(),

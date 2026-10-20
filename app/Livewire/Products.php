@@ -26,7 +26,6 @@ class Products extends Component
     public string $selectedProductName = '';
 
     public string $subName = '';
-    public string $subEmail = '';
     public string $subPhone = '';
     public string $subAddress = '';
     public string $subNotes = '';
@@ -53,41 +52,19 @@ class Products extends Component
 
     public function openModal(int $productId, string $productName)
     {
-        abort_unless(
-            auth()->check(),
-            403,
-            'Anda harus login sebagai sales/teknisi untuk mendaftarkan pelanggan.'
-        );
+        abort_unless(auth()->check(), 403, 'Anda harus login sebagai sales/teknisi untuk mendaftarkan pelanggan.');
 
         $this->selectedProductId = $productId;
         $this->selectedProductName = $productName;
         $this->subSubmitted = false;
-
-        $this->reset([
-            'subName',
-            'subEmail',
-            'subPhone',
-            'subAddress',
-            'subNotes',
-            'subPhoto'
-        ]);
-
+        $this->reset(['subName', 'subPhone', 'subAddress', 'subNotes', 'subPhoto']);
         $this->showModal = true;
     }
 
     public function closeModal()
     {
         $this->showModal = false;
-
-        $this->reset([
-            'subName',
-            'subEmail',
-            'subPhone',
-            'subAddress',
-            'subNotes',
-            'subPhoto',
-            'subSubmitted'
-        ]);
+        $this->reset(['subName', 'subPhone', 'subAddress', 'subNotes', 'subPhoto', 'subSubmitted']);
     }
 
     public function removePhoto()
@@ -101,7 +78,6 @@ class Products extends Component
 
         $validated = $this->validate([
             'subName' => 'required|min:3',
-            'subEmail' => 'required|email',
             'subPhone' => 'required|min:9',
             'subAddress' => 'required|min:10',
             'subNotes' => 'nullable|string',
@@ -109,8 +85,6 @@ class Products extends Component
         ], [
             'subName.required' => 'Nama pelanggan wajib diisi.',
             'subName.min' => 'Nama terlalu pendek.',
-            'subEmail.required' => 'Email pelanggan wajib diisi.',
-            'subEmail.email' => 'Format email tidak valid.',
             'subPhone.required' => 'Nomor telepon pelanggan wajib diisi.',
             'subPhone.min' => 'Nomor telepon terlalu pendek.',
             'subAddress.required' => 'Alamat pemasangan wajib diisi.',
@@ -119,45 +93,45 @@ class Products extends Component
             'subPhoto.max' => 'Ukuran gambar maksimal 5MB.',
         ]);
 
-        $photoPath = $this->subPhoto
-            ? $this->subPhoto->store('subscriptions', 'public')
-            : null;
+        $photoPath = $this->subPhoto ? $this->subPhoto->store('subscriptions', 'public') : null;
+
+        $user = auth()->user();
+        $isTechnician = $user->isTechnician();
 
         $subscription = Subscription::create([
-            'user_id' => auth()->id(),
+            'user_id' => $user->id,
+            // Kalau yang mendaftarkan teknisi: otomatis ditugaskan ke dirinya, hari ini
+            'technician_id' => $isTechnician ? $user->id : null,
+            'survey_date' => $isTechnician ? today() : null,
             'product_id' => $this->selectedProductId,
             'product_name' => $this->selectedProductName,
             'name' => $validated['subName'],
-            'email' => $validated['subEmail'],
             'phone' => $validated['subPhone'],
             'installation_address' => $validated['subAddress'],
             'photo' => $photoPath,
             'notes' => $validated['subNotes'] ?: null,
-            'status' => 'baru',
+            'status' => $isTechnician ? 'dijadwalkan' : 'baru',
         ]);
 
-     
         TelegramNotifier::send(
             "🔔 <b>Pendaftaran Pemasangan Baru</b>\n\n" .
-            "📦 Paket: <b>{$subscription->product_name}</b>\n" .
-            "👤 Pelanggan: {$subscription->name}\n" .
-            "📧 Email: {$subscription->email}\n" .
-            "📱 Telepon: {$subscription->phone}\n" .
-            "📍 Alamat: {$subscription->installation_address}\n" .
-            ($subscription->notes ? "📝 Catatan: {$subscription->notes}\n" : '') .
-            "🧑‍💼 Diinput oleh: " . auth()->user()->name . "\n" .
+            "📦 Paket: <b>" . e($subscription->product_name) . "</b>\n" .
+            "👤 Pelanggan: " . e($subscription->name) . "\n" .
+            "📱 Telepon: " . e($subscription->phone) . "\n" .
+            "📍 Alamat: " . e($subscription->installation_address) . "\n" .
+            ($subscription->notes ? "📝 Catatan: " . e($subscription->notes) . "\n" : '') .
+            ($isTechnician
+                ? "🧑‍🔧 Didaftarkan langsung oleh teknisi: " . e($user->name) . "\n"
+                : "🧑‍💼 Diinput oleh: " . e($user->name) . "\n") .
             "\n🕐 " . $subscription->created_at->translatedFormat('d F Y, H:i')
         );
-    
 
-        $this->reset([
-            'subName',
-            'subEmail',
-            'subPhone',
-            'subAddress',
-            'subNotes',
-            'subPhoto'
-        ]);
+        $this->reset(['subName', 'subPhone', 'subAddress', 'subNotes', 'subPhoto']);
+
+        // Teknisi langsung lanjut mengisi formulir pemasangan
+        if ($isTechnician) {
+            return $this->redirect(route('technician.report', $subscription));
+        }
 
         $this->subSubmitted = true;
     }

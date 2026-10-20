@@ -29,9 +29,9 @@
                 <h4 class="font-title-sm text-title-sm text-on-surface">Bantuan &amp; Navigasi</h4>
                 <ul class="space-y-2 font-body-md text-body-md text-on-surface-variant">
                     <li><a class="hover:text-primary transition-colors" href="#cakupan">Cakupan Area Fiber</a></li>
-                    <li><a class="hover:text-primary transition-colors" href="#">Promo Terbaru</a></li>
-                    <li><a class="hover:text-primary transition-colors" href="#">Berita &amp; Kegiatan</a></li>
-                    <li><a class="hover:text-primary transition-colors" href="#">Profil Perusahaan</a></li>
+                    {{-- <li><a class="hover:text-primary transition-colors" href="#">Promo Terbaru</a></li> --}}
+                    <li><a class="hover:text-primary transition-colors" href="#article-hero">Berita &amp; Kegiatan</a></li>
+                    <li><a class="hover:text-primary transition-colors" href="#company-profile">Profil Perusahaan</a></li>
                     <li><a class="hover:text-primary transition-colors" href="#hubungi-kami">Pusat Pengaduan Layanan</a></li>
                 </ul>
             </div>

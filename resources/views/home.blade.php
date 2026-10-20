@@ -1,7 +1,7 @@
 <x-layouts.app title="Saka Media - Internet Fiber Ultra Cepat">
     <livewire:header />
 
-    <main class="w-full pt-[120px] bg-surface">
+    <main class="w-full pt-20 bg-surface">
         <livewire:hero />
         <livewire:coverage-checker />
         <livewire:features />

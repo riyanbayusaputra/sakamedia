@@ -22,34 +22,58 @@
         },
     }"
     x-init="start()"
-    class="relative w-full overflow-hidden bg-[#050B1F] text-on-primary"
+    class="relative w-full overflow-hidden bg-[#050818] text-on-primary isolate"
 >
-    {{-- Animasi blob --}}
+    {{-- Animasi background --}}
     <style>
-        @keyframes blob {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            33%      { transform: translate(40px, -30px) scale(1.1); }
-            66%      { transform: translate(-30px, 30px) scale(0.95); }
+        /* Aurora: dua lapisan cahaya besar yang bergerak pelan berlawanan arah */
+        .aurora-a { animation: auroraA 22s ease-in-out infinite alternate; }
+        .aurora-b { animation: auroraB 27s ease-in-out infinite alternate; }
+        @keyframes auroraA {
+            0%   { transform: translate3d(0, 0, 0) rotate(0deg) scale(1); }
+            100% { transform: translate3d(6%, -5%, 0) rotate(8deg) scale(1.12); }
         }
-        .animate-blob { animation: blob 14s ease-in-out infinite; }
+        @keyframes auroraB {
+            0%   { transform: translate3d(0, 0, 0) rotate(0deg) scale(1.05); }
+            100% { transform: translate3d(-6%, 5%, 0) rotate(-7deg) scale(1.15); }
+        }
+
+        /* Cahaya warna berputar di belakang kartu slider */
+        .spin-slow { animation: spinSlow 16s linear infinite; }
+        @keyframes spinSlow { to { transform: rotate(360deg); } }
+
+        /* Tekstur grain halus supaya terlihat premium */
+        .grain {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .aurora-a, .aurora-b, .spin-slow { animation: none !important; }
+        }
     </style>
 
-    {{-- ===== BACKGROUND ===== --}}
-    {{-- Base gradient --}}
-    <div class="absolute inset-0 bg-gradient-to-br from-[#050B1F] via-[#0B1A45] to-[#1E3A8A] pointer-events-none z-0"></div>
+    {{-- ===== BACKGROUND: gradasi aurora modern (navy -> indigo -> violet -> magenta -> merah) ===== --}}
+    {{-- 1. Dasar warna --}}
+    <div class="absolute inset-0 pointer-events-none z-0"
+         style="background:linear-gradient(125deg,#050A2E 0%,#0B1C7A 22%,#3B1A8F 45%,#8B1B6B 68%,#D11F3F 88%,#F2503A 100%);"></div>
 
-    {{-- Mesh gradient (radial bertumpuk) --}}
-    <div class="absolute inset-0 pointer-events-none z-0 opacity-90"
-         style="background:
-            radial-gradient(60% 50% at 10% 10%, rgba(34,211,238,.28) 0%, transparent 60%),
-            radial-gradient(50% 45% at 90% 20%, rgba(59,130,246,.35) 0%, transparent 60%),
-            radial-gradient(55% 50% at 80% 100%, rgba(139,92,246,.30) 0%, transparent 60%),
-            radial-gradient(40% 40% at 5% 95%, rgba(220,38,38,.20) 0%, transparent 60%);">
-    </div>
+    {{-- 2. Aurora lapisan A: biru - violet - pink (dominan kiri/tengah) --}}
+    <div class="aurora-a absolute pointer-events-none z-0 opacity-90 mix-blend-screen"
+         style="inset:-25%;background:
+            radial-gradient(38% 38% at 20% 28%, rgba(59,130,246,.55) 0%, transparent 70%),
+            radial-gradient(34% 34% at 44% 72%, rgba(139,92,246,.50) 0%, transparent 70%),
+            radial-gradient(28% 28% at 60% 22%, rgba(236,72,153,.38) 0%, transparent 70%);"></div>
 
-    {{-- Blob bergerak pelan --}}
-    <div class="absolute -top-32 -left-32 w-[550px] h-[550px] rounded-full bg-cyan-speed/20 blur-3xl pointer-events-none z-0 animate-blob"></div>
-    <div class="absolute bottom-0 right-10 w-[600px] h-[600px] rounded-full bg-[#3B82F6]/25 blur-3xl pointer-events-none z-0 animate-blob [animation-delay:4s]"></div>
+    {{-- 3. Aurora lapisan B: rose - merah - jingga (dominan kanan) --}}
+    <div class="aurora-b absolute pointer-events-none z-0 opacity-90 mix-blend-screen"
+         style="inset:-25%;background:
+            radial-gradient(38% 38% at 84% 78%, rgba(244,63,94,.60) 0%, transparent 70%),
+            radial-gradient(32% 32% at 90% 24%, rgba(239,68,68,.45) 0%, transparent 70%),
+            radial-gradient(26% 26% at 70% 52%, rgba(251,146,60,.25) 0%, transparent 70%);"></div>
+
+    {{-- 4. Sorot cahaya lembut dari atas --}}
+    <div class="absolute inset-0 pointer-events-none z-0"
+         style="background:radial-gradient(60% 45% at 50% -8%, rgba(255,255,255,.16) 0%, transparent 70%);"></div>
 
     {{-- Efek paket data fiber --}}
     <span class="streak" style="top:18%;animation-delay:0s"></span>
@@ -67,8 +91,15 @@
             -webkit-mask-image: radial-gradient(ellipse at center, #000 30%, transparent 75%);">
     </div>
 
-    {{-- Fade ke bawah biar menyatu dengan section berikutnya --}}
-    <div class="absolute bottom-0 inset-x-0 h-24 bg-gradient-to-t from-[#060D24] to-transparent pointer-events-none z-0"></div>
+    {{-- Pelindung kontras teks di sisi kiri --}}
+    <div class="absolute inset-0 pointer-events-none z-0 bg-gradient-to-r from-[#050818]/55 via-transparent to-transparent"></div>
+
+    {{-- Vignette halus + grain --}}
+    <div class="absolute inset-0 pointer-events-none z-0" style="background:radial-gradient(120% 90% at 50% 40%, transparent 55%, rgba(5,8,24,.45) 100%);"></div>
+    <div class="grain absolute inset-0 pointer-events-none z-0 opacity-[0.07] mix-blend-overlay"></div>
+
+    {{-- Fade tipis ke bawah biar menyatu dengan section berikutnya --}}
+    <div class="absolute bottom-0 inset-x-0 h-20 bg-gradient-to-t from-[#2A0A14]/60 to-transparent pointer-events-none z-0"></div>
 
     {{-- ===== KONTEN ===== --}}
     <div class="max-w-7xl mx-auto px-6 lg:px-12 py-10 lg:py-16 relative z-10">
@@ -95,7 +126,7 @@
                         </div>
                         <div>
                             <div class="flex items-center gap-1.5 text-cyan-speed font-bold text-label-lg">
-                                <span class="material-symbols-outlined text-[18px]">speed</span><span>Kecepatan Hingga 1 Gbps</span>
+                                <span class="material-symbols-outlined text-[18px]">speed</span><span>Kecepatan Hingga 100 MBPS</span>
                             </div>
                             <p class="text-body-sm text-surface-container-highest">Termasuk Wi-Fi 6 Router &amp; Support Prioritas 24 Jam</p>
                         </div>
@@ -112,6 +143,12 @@
 
             {{-- Kolom kanan: kartu slider --}}
             <div class="enter enter-right lg:col-span-6 relative" style="--d:400" @mouseenter="stop()" @mouseleave="start()">
+
+                {{-- Cahaya warna berputar di belakang kartu --}}
+                <div class="absolute -inset-3 rounded-[2rem] overflow-hidden blur-2xl opacity-60 pointer-events-none" aria-hidden="true">
+                    <div class="spin-slow absolute" style="inset:-60%;background:conic-gradient(from 0deg,#22D3EE,#6366F1,#EC4899,#EF4444,#22D3EE);"></div>
+                </div>
+
                 <div class="relative rounded-3xl overflow-hidden shadow-2xl border-2 border-surface-container-lowest/20 bg-[#0F1D4D]/90 backdrop-blur-md p-3 group">
 
                     {{-- Area gambar slide --}}
@@ -190,7 +227,7 @@
                 <span class="material-symbols-outlined text-cyan-speed text-[20px]">sync_alt</span><span class="font-label-md text-label-md text-surface-container-lowest font-semibold">Rasio 1:1 Simetris</span>
             </div>
             <div class="flex items-center gap-2.5 p-2 rounded-xl bg-surface-container-lowest/5 backdrop-blur-sm" data-reveal style="--d:200">
-                <span class="material-symbols-outlined text-red-accent text-[20px]">all_inclusive</span><span class="font-label-md text-label-md text-surface-container-lowest font-semibold">Tanpa Batas FUP</span>
+                <span class="material-symbols-outlined text-red-soft text-[20px]">all_inclusive</span><span class="font-label-md text-label-md text-surface-container-lowest font-semibold">Tanpa Batas FUP</span>
             </div>
             <div class="flex items-center gap-2.5 p-2 rounded-xl bg-surface-container-lowest/5 backdrop-blur-sm" data-reveal style="--d:300">
                 <span class="material-symbols-outlined text-cyan-speed text-[20px]">security</span><span class="font-label-md text-label-md text-surface-container-lowest font-semibold">SLA 99.5% Uptime</span>

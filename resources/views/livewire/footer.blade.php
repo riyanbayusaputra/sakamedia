@@ -8,9 +8,9 @@
                 </div>
                 <p class="font-body-md text-body-md text-on-surface-variant pr-6 leading-relaxed">Penyedia solusi konektivitas internet pita lebar (broadband) dan jaringan serat optik ultra cepat untuk korporasi, institusi pendidikan, pemerintahan, dan komunitas RT/RW Net di Indonesia.</p>
                 <div class="pt-2 space-y-2 font-body-sm text-body-sm text-on-surface-variant">
-                    <div class="flex items-start gap-2"><span class="material-symbols-outlined text-[18px] text-primary shrink-0 mt-0.5">location_on</span><span>Jalan Jendral Sudirman Barat No.155 Randudongkal, Pemalang, Jawa Tengah 52353</span></div>
+                    <div class="flex items-start gap-2"><span class="material-symbols-outlined text-[18px] text-primary shrink-0 mt-0.5">location_on</span><span>Jl. Kalimas No.Rt. 024/02, Area Sawah / Kebun, Lodaya, Kec. Randudongkal, Kabupaten Pemalang, Jawa Tengah 52353</span></div>
                     <div class="flex items-center gap-2"><span class="material-symbols-outlined text-[18px] text-primary shrink-0">call</span><span>+62 284 3286924</span></div>
-                    <div class="flex items-center gap-2"><span class="material-symbols-outlined text-[18px] text-primary shrink-0">mail</span><span>kontak@sakamedia.id</span></div>
+                    <div class="flex items-center gap-2"><span class="material-symbols-outlined text-[18px] text-primary shrink-0">mail</span><span>info@sakamedia.net</span></div>
                 </div>
             </div>
 
@@ -47,7 +47,7 @@
         </div>
 
         <div class="pt-4 flex flex-col md:flex-row items-center justify-between gap-4 font-body-sm text-body-sm text-on-surface-variant border-t border-outline-variant/30">
-            <p>© {{ date('Y') }} PT SAKA MEDIA KOMUNIKA. Hak Cipta Dilindungi Undang-Undang.</p>
+            <p>© {{ date('Y') }} PT SAKA MEDIA KOMUNIKA</p>
             <div class="flex items-center gap-6">
                 <a class="hover:text-primary transition-colors" href="#">Syarat &amp; Ketentuan</a>
                 <a class="hover:text-primary transition-colors" href="#">Kebijakan Privasi</a>

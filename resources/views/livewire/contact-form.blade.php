@@ -17,7 +17,7 @@
                         <div class="space-y-3 font-body-md text-body-md text-on-surface-variant">
                             <div class="flex items-start gap-3"><span class="material-symbols-outlined text-primary text-[20px] shrink-0 mt-0.5">location_on</span><span>Jl. Kalimas No.Rt. 024/02, Area Sawah / Kebun, Lodaya, Kec. Randudongkal, Kabupaten Pemalang, Jawa Tengah 52353</span></div>
                             <div class="flex items-center gap-3"><span class="material-symbols-outlined text-primary text-[20px] shrink-0">call</span><span class="font-semibold text-on-surface">+62 81510571114</span></div>
-                            <div class="flex items-center gap-3"><span class="material-symbols-outlined text-primary text-[20px] shrink-0">mail</span><span>info@sakamedia.net / kontak@sakamedia.id</span></div>
+                            <div class="flex items-center gap-3"><span class="material-symbols-outlined text-primary text-[20px] shrink-0">mail</span><span>info@sakamedia.net</span></div>
                         </div>
                     </div>
 
